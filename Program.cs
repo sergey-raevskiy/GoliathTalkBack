@@ -9,9 +9,21 @@ namespace GoliathTalkBack
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                using (var form = new MainForm())
+                using (new KeyboardHook(form))
+                {
+                    Application.Run(form);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in Main(): {0}", ex);
+            }
         }
     }
 }
