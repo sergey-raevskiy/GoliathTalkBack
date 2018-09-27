@@ -20,6 +20,11 @@ namespace GoliathTalkBack
 
         [JsonProperty("properties")]
         public AntelopeBeaconProperties Properties { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 
     interface IAntelopeBeaconListenerCallback

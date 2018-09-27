@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
 
@@ -37,6 +38,21 @@ namespace GoliathTalkBack
         void IHookCallback.OnKeyDown(Keys key)
         {
             Console.WriteLine(key);
+
+            if (key == Keys.X)
+            {
+                UdpClient udpclient = new UdpClient();
+
+                IPAddress multicastaddress = IPAddress.Parse("239.192.5.8");
+                udpclient.JoinMulticastGroup(multicastaddress);
+                IPEndPoint remoteep = new IPEndPoint(multicastaddress, 5008);
+
+                var buffer =
+                    Encoding.ASCII.GetBytes(
+                        "{uuid: '35382F95-396A-4E2D-92D2-3F4977B0BB6E', properties: {product_id: '0x023'} }");
+                udpclient.Send(buffer, buffer.Length, remoteep);
+                Console.WriteLine("Sent");
+            }
         }
 
         void IHookCallback.OnKeyUp(Keys key)
