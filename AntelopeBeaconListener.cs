@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -29,7 +30,7 @@ namespace GoliathTalkBack
 
     interface IAntelopeBeaconListenerCallback
     {
-        void OnBeaconRecieved(IPEndPoint remoteEndPoint, AntelopeBeacon beacon);
+        void OnNewServerDiscovered(IPEndPoint remoteEndPoint, AntelopeBeacon beacon);
     }
 
     class AntelopeBeaconListener : IDisposable
@@ -46,6 +47,18 @@ namespace GoliathTalkBack
             m_Callback = callback;
             m_Thread = new Thread(ReceiveThread);
             m_Thread.Start();
+        }
+
+        private Dictionary<string, AntelopeBeacon> m_KnownBeacons
+            = new Dictionary<string, AntelopeBeacon>();
+
+        private void OnBeaconRecieved(IPEndPoint remoteEndPoint, AntelopeBeacon beacon)
+        {
+            if (m_KnownBeacons.ContainsKey(beacon.Uuid))
+                return;
+
+            m_KnownBeacons.Add(beacon.Uuid, beacon);
+            m_Callback.OnNewServerDiscovered(remoteEndPoint, beacon);
         }
 
         private void ReceiveThread()
@@ -82,7 +95,7 @@ namespace GoliathTalkBack
 
                             var beacon = JsonConvert.DeserializeObject<AntelopeBeacon>(message);
 
-                            m_Callback.OnBeaconRecieved(remoteEndPoint, beacon);
+                            OnBeaconRecieved(remoteEndPoint, beacon);
                         }
                         catch (Exception ex)
                         {

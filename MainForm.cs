@@ -70,9 +70,9 @@ namespace GoliathTalkBack
             Console.WriteLine("Mouse up: {0}", e.Button);
         }
 
-        void IAntelopeBeaconListenerCallback.OnBeaconRecieved(IPEndPoint remoteEndPoint, AntelopeBeacon beacon)
+        void IAntelopeBeaconListenerCallback.OnNewServerDiscovered(IPEndPoint remoteEndPoint, AntelopeBeacon beacon)
         {
-            Console.WriteLine("Beacon: {0} {1}", remoteEndPoint, beacon);
+            Console.WriteLine("New server discovered: {0} {1}", remoteEndPoint, beacon);
         }
     }
 }
