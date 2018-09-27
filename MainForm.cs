@@ -12,11 +12,19 @@ namespace GoliathTalkBack
 {
     public partial class MainForm : Form, IHookCallback, IAntelopeBeaconListenerCallback
     {
+        private static Icon GetIcon(string name)
+        {
+            var resources = new ComponentResourceManager(typeof(MainForm));
+            return (Icon)(resources.GetObject(name));
+        }
+
+        private static readonly Icon s_icoTalkBackOff = GetIcon("talkbackOff");
+        private static readonly Icon s_icoTalkBackOn = GetIcon("talkbackOn");
+
         public MainForm()
         {
-            //NotifyIcon
-
             InitializeComponent();
+            trayIcon.Icon = s_icoTalkBackOff;
         }
 
         private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -53,11 +61,18 @@ namespace GoliathTalkBack
                 udpclient.Send(buffer, buffer.Length, remoteep);
                 Console.WriteLine("Sent");
             }
+            else if (key == Keys.T)
+            {
+                trayIcon.Icon = s_icoTalkBackOn;
+            }
         }
 
         void IHookCallback.OnKeyUp(Keys key)
         {
-            
+            if (key == Keys.T)
+            {
+                trayIcon.Icon = s_icoTalkBackOff;
+            }
         }
 
         private void trayIcon_MouseDown(object sender, MouseEventArgs e)
