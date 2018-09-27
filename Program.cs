@@ -14,6 +14,8 @@ namespace GoliathTalkBack
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                // todo: avoid race condition?
+
                 using (var form = new MainForm())
                 using (new KeyboardHook(form))
                 {
