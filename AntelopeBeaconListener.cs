@@ -54,14 +54,25 @@ namespace GoliathTalkBack
                     client.Client.Bind(new IPEndPoint(IPAddress.Any, AntelopeMulticastGroupPort));
                     client.JoinMulticastGroup(AntelopeMulticastGroupAddress);
 
-                    while (!m_StopEvent.WaitOne(0))
+                    while (true)
                     {
                         var remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
                         string message = null;
 
                         try
                         {
-                            var datagram = client.Receive(ref remoteEndPoint);
+                            var ar = client.BeginReceive(null, null);
+                            int rc = WaitHandle.WaitAny(new [] {ar.AsyncWaitHandle, m_StopEvent});
+                            if (rc == 1)
+                            {
+                                break;
+                            }
+                            else if (rc!=0)
+                            {
+                                throw new Exception(string.Format("Unexpected wait status: {0}", rc));
+                            }
+
+                            var datagram = client.EndReceive(ar, ref remoteEndPoint);
                             message = Encoding.ASCII.GetString(datagram);
 
                             var beacon = JsonConvert.DeserializeObject<AntelopeBeacon>(message);
