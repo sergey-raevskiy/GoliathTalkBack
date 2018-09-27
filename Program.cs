@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GoliathTalkBack
@@ -18,8 +17,9 @@ namespace GoliathTalkBack
 
                 using (var form = new MainForm())
                 using (new KeyboardHook(form))
+                using (new AntelopeBeaconListener(form))
                 {
-                    Application.Run(form);
+                    Application.Run();
                 }
             }
             catch (Exception ex)

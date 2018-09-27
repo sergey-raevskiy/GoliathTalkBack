@@ -39,6 +39,8 @@
             this.trayIcon.Text = "notifyIcon1";
             this.trayIcon.Visible = true;
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            this.trayIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDown);
+            this.trayIcon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseUp);
             // 
             // MainForm
             // 
