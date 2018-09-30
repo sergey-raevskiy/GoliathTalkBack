@@ -57,7 +57,7 @@ namespace GoliathTalkBack
                     
                     var buffer =
                         Encoding.ASCII.GetBytes(
-                            "{\"interval\": 500.0, \"type\": \"_antelope_control._tcp.local.\", \"name\": \"Goliath, SN: 2202717080302 uuid: 0274ead2-f57e-4f72-af71-b2a289c11dbe address: 10-0-0-11:2021._antelope_control._tcp.local.\", \"ip\": \"10.0.0.11\", \"properties\": {\"connection_type\": \"USB\", \"vendor_id\": \"0x23e5\", \"serial_number\": \"2202717080302\", \"hardware_version\": \"11.0\", \"server_version\": \"1.4.8\", \"firmware_version\": \"3.61\", \"mode\": \"app\", \"device_name\": \"Goliath\", \"product_id\": \"0xa150\"}, \"uuid\": \"0274ead2-457e-4f72-af71-b2a289c11dbe\", \"protocol\": \"TCP\", \"port\": 2021}");
+                            "{\"interval\": 500.0, \"type\": \"_antelope_control._tcp.local.\", \"name\": \"Goliath, SN: 2202717080302 uuid: 0274ead2-f57e-4f72-af71-b2a289c11dbe address: 192-168-2-5:2021._antelope_control._tcp.local.\", \"ip\": \"192.168.2.5\", \"properties\": {\"connection_type\": \"USB\", \"vendor_id\": \"0x23e5\", \"serial_number\": \"2202717080302\", \"hardware_version\": \"11.0\", \"server_version\": \"1.4.8\", \"firmware_version\": \"3.61\", \"mode\": \"app\", \"device_name\": \"Goliath\", \"product_id\": \"0xa150\"}, \"uuid\": \"0274ead2-457e-4f72-af71-b2a289c11dbe\", \"protocol\": \"TCP\", \"port\": 2021}");
                     udpclient.Send(buffer, buffer.Length, remoteep);
                     Console.WriteLine("Sent");
                 }
