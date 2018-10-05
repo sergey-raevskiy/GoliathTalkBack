@@ -18,6 +18,7 @@ namespace GoliathTalkBack
                 using (var menu = new TkbContextMenu())
                 using (var icon = new TkbTrayIcon(menu))
                 using (var controller  = new TkbController(icon, menu))
+                using (new KeyboardHook(controller))
                 {
                     menu.AdviseEvents(controller);
 

@@ -18,8 +18,8 @@ namespace GoliathTalkBack
             return (Icon)(resources.GetObject(name));
         }
 
-        public static readonly Icon s_icoTalkBackOff = GetIcon("trayIcon.Icon");
-        private static readonly Icon s_icoTalkBackOn = GetIcon("talkbackOn");
+        public static readonly Icon s_icoTalkBackOff = GetIcon("tkbBtnOff");
+        public static readonly Icon s_icoTalkBackOn = GetIcon("tkbBtnOn");
 
         public MainForm()
         {

@@ -18,6 +18,11 @@ namespace GoliathTalkBack
             m_Icon.Text = "Goliath TalkBack";
         }
 
+        public void SetState(bool on)
+        {
+            m_Icon.Icon = on ? MainForm.s_icoTalkBackOn : MainForm.s_icoTalkBackOff;
+        }
+
         public void Dispose()
         {
             if (m_Icon != null)

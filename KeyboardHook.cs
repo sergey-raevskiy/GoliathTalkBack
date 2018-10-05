@@ -17,6 +17,8 @@ namespace GoliathTalkBack
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
+        private const int WM_SYSKEYDOWN = 0x0104;
+        private const int WM_SYSKEYUP = 0x0105;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -54,9 +56,21 @@ namespace GoliathTalkBack
                 int vkCode = Marshal.ReadInt32(lParam);
                 m_Callback.OnKeyUp((Keys) vkCode);
             }
+            else if (nCode >= 0 && wParam == (IntPtr) WM_SYSKEYDOWN)
+            {
+                // TODO: Should this be handled in some other way?
+                int vkCode = Marshal.ReadInt32(lParam);
+                m_Callback.OnKeyDown((Keys) vkCode);
+            }
+            else if (nCode >= 0 && wParam == (IntPtr) WM_SYSKEYUP)
+            {
+                // TODO: Should this be handled in some other way?
+                int vkCode = Marshal.ReadInt32(lParam);
+                m_Callback.OnKeyUp((Keys) vkCode);
+            }
             else
             {
-                Console.WriteLine(wParam);
+                Console.WriteLine("Unknown wParam: {0}", wParam);
             }
         }
 
