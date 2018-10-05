@@ -15,9 +15,8 @@ namespace GoliathTalkBack
 
                 // todo: avoid race condition?
 
-                using (var form = new MainForm())
-                using (new KeyboardHook(form))
-                using (new AntelopeBeaconListener(form))
+                using (var menu = new TkbContextMenu())
+                using (new TkbTrayIcon(menu))
                 {
                     Application.Run();
                 }

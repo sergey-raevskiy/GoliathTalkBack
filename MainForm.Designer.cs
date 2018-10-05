@@ -29,17 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // trayIcon
             // 
+            this.trayIcon.ContextMenuStrip = this.trayIconMenu;
             this.trayIcon.Text = "notifyIcon1";
             this.trayIcon.Visible = true;
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             this.trayIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDown);
             this.trayIcon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseUp);
+            // 
+            // trayIconMenu
+            // 
+            this.trayIconMenu.Name = "trayIconMenu";
+            this.trayIconMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 
@@ -56,6 +62,7 @@
         #endregion
 
         private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.ContextMenuStrip trayIconMenu;
     }
 }
 
