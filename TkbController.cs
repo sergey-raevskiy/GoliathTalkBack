@@ -42,10 +42,11 @@ namespace GoliathTalkBack
 
         private void NewServerDiscovered(AntelopeBeacon beacon)
         {
+            m_Beacons.Add(beacon.Uuid, beacon);
+            m_Menu.AddDevice(string.Format("Goliath {0}:{1}", beacon.Ip, beacon.Port), beacon.Uuid);
+
             if (!m_Client.IsConnected)
             {
-                m_Beacons.Add(beacon.Uuid, beacon);
-
                 m_Icon.ShowBaloon("New device found", string.Format("Connecting to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.Info);
                 m_Client.Connect(beacon.Ip, beacon.Port, beacon.Uuid);
             }
@@ -98,6 +99,7 @@ namespace GoliathTalkBack
         {
             var beacon = m_Beacons[cookie];
             m_Icon.ShowBaloon("Connection successfull", string.Format("Successfully connected to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.Info);
+            m_Menu.SelectDevice(cookie);
         }
 
         void IAntelopeClientEvents.OnError(string cookie, string error)
