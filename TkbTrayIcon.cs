@@ -23,6 +23,11 @@ namespace GoliathTalkBack
             m_Icon.Icon = on ? MainForm.s_icoTalkBackOn : MainForm.s_icoTalkBackOff;
         }
 
+        public void ShowBaloon(string header, string body, ToolTipIcon icon)
+        {
+            m_Icon.ShowBalloonTip(1000, header, body, icon);
+        }
+
         public void Dispose()
         {
             if (m_Icon != null)

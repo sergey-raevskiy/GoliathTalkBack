@@ -22,6 +22,12 @@ namespace GoliathTalkBack
         [JsonProperty("properties")]
         public AntelopeBeaconProperties Properties { get; set; }
 
+        [JsonProperty("ip")]
+        public string Ip { get; set; }
+
+        [JsonProperty("port")]
+        public int Port { get; set; }
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
