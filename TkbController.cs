@@ -28,13 +28,18 @@ namespace GoliathTalkBack
 
         private void TalkBackOn()
         {
-            Console.WriteLine(SynchronizationContext.Current);
-            m_Icon.SetState(true);
+            if (m_Client.IsConnected)
+            {
+                m_Client.SendMessage("[\"set_tbk_enable\", [0, 1], {}]");
+            }
         }
 
         private void TalkBackOff()
         {
-            m_Icon.SetState(false);
+            if (m_Client.IsConnected)
+            {
+                m_Client.SendMessage("[\"set_tbk_enable\", [0, 0], {}]");
+            }
         }
 
         private Dictionary<string, AntelopeBeacon> m_Beacons =
