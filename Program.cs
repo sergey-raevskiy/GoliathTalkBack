@@ -16,8 +16,11 @@ namespace GoliathTalkBack
                 // todo: avoid race condition?
 
                 using (var menu = new TkbContextMenu())
-                using (new TkbTrayIcon(menu))
+                using (var icon = new TkbTrayIcon(menu))
+                using (var controller  = new TkbController(icon, menu))
                 {
+                    menu.AdviseEvents(controller);
+
                     Application.Run();
                 }
             }

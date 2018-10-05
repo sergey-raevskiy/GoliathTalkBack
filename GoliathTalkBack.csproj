@@ -63,6 +63,7 @@
     <Compile Include="TkbContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TkbController.cs" />
     <Compile Include="TkbTrayIcon.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -5,6 +5,12 @@ using System.Windows.Forms;
 
 namespace GoliathTalkBack
 {
+    interface ITkbContextMenuEvents
+    {
+        void OnDeviceSelected(string id);
+        void OnExit();
+    }
+
     class TkbContextMenu : ContextMenu
     {
         private Dictionary<string, MenuItem> m_Devices =
@@ -12,6 +18,23 @@ namespace GoliathTalkBack
 
         private MenuItem m_NoDevices;
         private MenuItem m_DevSep;
+        private ITkbContextMenuEvents m_Events;
+
+        private void OnDeviceClick(object sender, EventArgs e)
+        {
+            if (m_Events != null)
+            {
+                var item = (MenuItem)sender;
+                var id = (string)item.Tag;
+                m_Events.OnDeviceSelected(id);
+            }
+        }
+
+        private void OnExit(object sender, EventArgs e)
+        {
+            if (m_Events != null)
+                m_Events.OnExit();
+        }
 
         public TkbContextMenu()
         {
@@ -21,12 +44,17 @@ namespace GoliathTalkBack
 
             m_DevSep = this.MenuItems.Add("-");
 
-            this.MenuItems.Add("Exit");
+            this.MenuItems.Add("Exit", OnExit);
+        }
+
+        public void AdviseEvents(ITkbContextMenuEvents events)
+        {
+            m_Events = events;
         }
 
         public void AddDevice(string displayName, string id)
         {
-            var item = new MenuItem(displayName);
+            var item = new MenuItem(displayName, OnDeviceClick);
             item.Tag = id;
             m_Devices.Add(id, item);
             int pos = this.MenuItems.IndexOf(m_DevSep);
@@ -42,6 +70,18 @@ namespace GoliathTalkBack
 
             if (m_Devices.Count == 0)
                 m_NoDevices.Visible = true;
+        }
+
+        public void ClearDeviceSelection()
+        {
+            foreach (var device in m_Devices.Values)
+                device.Checked = false;
+        }
+
+        public void SelectDevice(string id)
+        {
+            ClearDeviceSelection();
+            m_Devices[id].Checked = true;
         }
     }
 }
