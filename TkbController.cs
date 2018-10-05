@@ -47,12 +47,15 @@ namespace GoliathTalkBack
 
         private void NewServerDiscovered(AntelopeBeacon beacon)
         {
+            if (beacon.Properties.ProductId != "0xa150")
+                return;
+
             m_Beacons.Add(beacon.Uuid, beacon);
-            m_Menu.AddDevice(string.Format("Goliath {0}:{1}", beacon.Ip, beacon.Port), beacon.Uuid);
+            m_Menu.AddDevice(string.Format("Goliath {0}", beacon.Properties.SerialNumber), beacon.Uuid);
 
             if (!m_Client.IsConnected)
             {
-                m_Icon.ShowBaloon("New device found", string.Format("Connecting to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.Info);
+                m_Icon.ShowBaloon("New device found", string.Format("Connecting to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.None);
                 m_Client.Connect(beacon.Ip, beacon.Port, beacon.Uuid);
             }
         }
@@ -103,14 +106,14 @@ namespace GoliathTalkBack
         void IAntelopeClientEvents.OnConnected(string cookie)
         {
             var beacon = m_Beacons[cookie];
-            m_Icon.ShowBaloon("Connection successfull", string.Format("Successfully connected to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.Info);
+            m_Icon.ShowBaloon("Connection successfull", string.Format("Successfully connected to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.None);
             m_Menu.SelectDevice(cookie);
         }
 
         void IAntelopeClientEvents.OnError(string cookie, string error)
         {
             var beacon = m_Beacons[cookie];
-            m_Icon.ShowBaloon("Connection failed", string.Format("Failed to connected to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.Info);
+            m_Icon.ShowBaloon("Connection failed", string.Format("Failed to connected to {0}:{1}: {2}", beacon.Ip, beacon.Port, error), ToolTipIcon.Error);
         }
 
         void IAntelopeClientEvents.OnReport(string cookie, AntelopeReport report)

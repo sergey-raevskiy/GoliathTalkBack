@@ -12,6 +12,9 @@ namespace GoliathTalkBack
     {
         [JsonProperty("product_id")]
         public string ProductId { get; set; }
+
+        [JsonProperty("serial_number")]
+        public string SerialNumber { get; set; }
     }
 
     class AntelopeBeacon
