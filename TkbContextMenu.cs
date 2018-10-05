@@ -8,6 +8,7 @@ namespace GoliathTalkBack
     interface ITkbContextMenuEvents
     {
         void OnDeviceSelected(string id);
+        void OnDisconnect();
         void OnExit();
     }
 
@@ -18,6 +19,7 @@ namespace GoliathTalkBack
 
         private MenuItem m_NoDevices;
         private MenuItem m_DevSep;
+        private MenuItem m_Disconnect;
         private ITkbContextMenuEvents m_Events;
 
         private void OnDeviceClick(object sender, EventArgs e)
@@ -36,6 +38,12 @@ namespace GoliathTalkBack
                 m_Events.OnExit();
         }
 
+        private void OnDisconnect(object sender, EventArgs e)
+        {
+            if (m_Events != null)
+                m_Events.OnDisconnect();
+        }
+
         public TkbContextMenu()
         {
             m_NoDevices = this.MenuItems.Add("(no devices found)");
@@ -43,6 +51,9 @@ namespace GoliathTalkBack
             m_NoDevices.Visible = true;
 
             m_DevSep = this.MenuItems.Add("-");
+
+            m_Disconnect = this.MenuItems.Add("Disconnect", OnDisconnect);
+            m_Disconnect.Enabled = false;
 
             this.MenuItems.Add("Exit", OnExit);
         }
@@ -76,12 +87,15 @@ namespace GoliathTalkBack
         {
             foreach (var device in m_Devices.Values)
                 device.Checked = false;
+
+            m_Disconnect.Enabled = false;
         }
 
         public void SelectDevice(string id)
         {
             ClearDeviceSelection();
             m_Devices[id].Checked = true;
+            m_Disconnect.Enabled = true;
         }
     }
 }

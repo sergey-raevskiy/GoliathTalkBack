@@ -62,7 +62,15 @@ namespace GoliathTalkBack
 
         void ITkbContextMenuEvents.OnDeviceSelected(string id)  
         {
+            var beacon = m_Beacons[id];
 
+            m_Icon.ShowBaloon("Connection", string.Format("Connecting to {0}:{1}", beacon.Ip, beacon.Port), ToolTipIcon.None);
+            m_Client.Connect(beacon.Ip, beacon.Port, beacon.Uuid);
+        }
+
+        void ITkbContextMenuEvents.OnDisconnect()
+        {
+            m_Client.Disconnect();
         }
 
         void ITkbContextMenuEvents.OnExit()
@@ -118,6 +126,11 @@ namespace GoliathTalkBack
 
         void IAntelopeClientEvents.OnReport(string cookie, AntelopeReport report)
         {
+        }
+
+        void IAntelopeClientEvents.OnDisconnected(string cookie)
+        {
+            m_Menu.ClearDeviceSelection();
         }
     }
 }
